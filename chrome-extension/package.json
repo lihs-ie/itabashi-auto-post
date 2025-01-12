@@ -1,0 +1,63 @@
+{
+  "name": "itabashi-auto-post",
+  "version": "1.0.0",
+  "description": "ニコ生配信開始自動ポスト拡張機能",
+  "main": "index.ts",
+  "scripts": {
+    "build:dev": "tsc && vite build --emptyOutDir --mode development",
+    "build:prd": "tsc && vite build --emptyOutDir --mode production",
+    "test": "test",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/lihs-ie/itabashi-auto-post.git"
+  },
+  "author": "lihs-ie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lihs-ie/itabashi-auto-post/issues"
+  },
+  "homepage": "https://github.com/lihs-ie/itabashi-auto-post#readme",
+  "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.3",
+    "@storybook/addon-essentials": "^8.4.7",
+    "@storybook/addon-interactions": "^8.4.7",
+    "@storybook/addon-onboarding": "^8.4.7",
+    "@storybook/blocks": "^8.4.7",
+    "@storybook/react": "^8.4.7",
+    "@storybook/react-vite": "^8.4.7",
+    "@storybook/test": "^8.4.7",
+    "@types/chrome": "^0.0.289",
+    "@types/css-modules": "^1.0.5",
+    "@types/react": "^19.0.3",
+    "@types/react-dom": "^19.0.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "sass": "^1.83.1",
+    "storybook": "^8.4.7",
+    "vite": "^6.0.7",
+    "vite-plugin-static-copy": "^2.2.0"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@gilbarbara/components": "^0.15.1",
+    "@gilbarbara/helpers": "^0.9.5",
+    "@gsap/react": "^2.1.2",
+    "axios": "^1.7.9",
+    "classnames": "^2.5.1",
+    "cra-template-typescript": "1.2.0",
+    "framer-motion": "^12.0.5",
+    "gsap": "^3.12.7",
+    "immutable": "^5.0.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-scripts": "5.0.1",
+    "typescript": "^5.7.3"
+  }
+}
