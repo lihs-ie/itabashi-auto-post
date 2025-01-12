@@ -1,0 +1,39 @@
+{
+  "name": "Itabashi Auto Post",
+  "description": "Use OAuth in Extensions",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": ["storage", "identity", "tabs", "activeTab", "scripting", "alarms"],
+  "action": {
+    "default_popup": "src/pages/popup/index.html"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://live.nicovideo.jp/watch/lv*"],
+      "js": ["content.js"]
+    }
+  ],
+  "externally_connectable": {
+    "matches": ["https://script.google.com/macros/s/*", "https://live.nicovideo.jp/watch/lv*"]
+  },
+  "oauth2": {
+    "client_id": "R3hUQ2FRTC1TT2tzQmpmYXRQc186MTpjaQ",
+    "scopes": ["tweet.write", "offline.access"],
+    "redirect_uri": "https://fnblmcbgfliopllclifdebjaklkpjpfi.chromiumapp.org/"
+  },
+  "host_permissions": [
+    "https://script.google.com/macros/s/*",
+    "https://script.googleusercontent.com/macros/*"
+  ],
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlgSh68zwMewLPOxqvQVz71RT4as5sYIpA+rpfkSE6UJeqgg3fGJWQ8MHdZI/YDw6PZyRhTI+IrI3H8t+YZKhdffjPFYTuDpm2W/S98HujGLucpdH52iBbPaisKvE265ct1LupYbMDhdIMS2a1YjwSaCf+3M91cegUH2KP2Rjjo0HdTiZjHrKkBrxHMyWWZoe+eeWPk5pRQ7naGSdW30qxCa1GxCshepprLIK9hlX16yk9X38xo7riPaBdFO2FIsoTvZcFNw0iYI+SN4QOs4K2XQ+fXC2FCy4KMjGK88Wj64CWMCry4+gwhkoW6QqlvFyWnLWHflHjyAGb0qnUzPUAwIDAQAB"
+}
