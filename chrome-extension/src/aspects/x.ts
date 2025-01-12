@@ -2,6 +2,7 @@ import { Scraper } from "./scraping";
 import { NicoLiveSelector } from "config";
 import { OAuth } from "config";
 import { get, set } from "./storage";
+import axios from "axios";
 
 type Error = {
   error: string;
@@ -35,7 +36,7 @@ export const checkLogin = async (): Promise<boolean> => {
   }
 };
 
-export const authenticate = async () => {
+export const authenticate = async (): Promise<void> => {
   const initialState = createState();
   const authorizationURL = `${OAuth.AUTHORIZATION_ENDPOINT}?response_type=code&client_id=${
     OAuth.CLIENT_ID
@@ -43,45 +44,50 @@ export const authenticate = async () => {
     OAuth.REDIRECT_URI
   )}&scope=tweet.write%20tweet.read%20users.read%20offline.access&state=${initialState}&code_challenge=challenge&code_challenge_method=plain`;
 
-  chrome.identity.launchWebAuthFlow({ url: authorizationURL, interactive: true }, (redirectURL) => {
-    if (!redirectURL) {
-      throw new Error("Failed to obtain auth code.");
-    }
-    const url = new URL(redirectURL);
-    const code = url.searchParams.get("code");
-    const state = url.searchParams.get("state");
-
-    if (!code || state !== initialState) {
-      throw new Error("Authorization code not found.");
-    }
-
-    exchangeToken(code)
-      .then(() => console.log("Token exchanged successful."))
-      .catch((reason) => {
-        console.error("Failed to exchange token:", reason);
-        throw new Error(reason);
-      });
+  const redirectURL = await new Promise<string>((resolve, reject) => {
+    chrome.identity.launchWebAuthFlow(
+      { url: authorizationURL, interactive: true },
+      (redirectURL) => {
+        if (!redirectURL) {
+          reject(new Error("Failed to obtain auth code."));
+        } else {
+          resolve(redirectURL);
+        }
+      }
+    );
   });
+
+  const url = new URL(redirectURL);
+  const code = url.searchParams.get("code");
+  const state = url.searchParams.get("state");
+
+  if (!code || state !== initialState) {
+    throw new Error("Authorization code not found.");
+  }
+
+  await exchangeToken(code);
 };
 
 export const exchangeToken = async (code: string): Promise<void> => {
   try {
-    const response = await fetch(OAuth.TOKEN_ENDPOINT, {
-      body: JSON.stringify({
+    const response = await axios.post<{ userId: string }>(
+      OAuth.TOKEN_ENDPOINT,
+      {
         code,
         password: OAuth.GAS_PASSWORD,
         action: "issueToken",
-      }),
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
       },
-    });
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-    const json = (await response.json()) as { userId: string };
+    const data = response.data;
 
     await set("isLogin", true);
-    await set("userId", json.userId);
+    await set("userId", data.userId);
   } catch (error) {
     throw new Error(`Failed to exchange token: ${error as Error}`);
   }

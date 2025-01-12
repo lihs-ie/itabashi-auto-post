@@ -1,13 +1,13 @@
-import { XloginForm } from "components/organisms/forms/x-login";
+import { XLoginForm } from "components/organisms/forms/x-login";
 import styles from "./popup.module.scss";
 
 export type Props = {
-  onClick?: () => void;
+  authenticate: () => Promise<void>;
   isLogin: boolean;
 };
 
 export const PopUp = (props: Props) => (
   <div className={styles.container}>
-    <XloginForm onClick={props.onClick} isLogin={props.isLogin} />
+    <XLoginForm onClick={props.authenticate} isLogin={props.isLogin} />
   </div>
 );

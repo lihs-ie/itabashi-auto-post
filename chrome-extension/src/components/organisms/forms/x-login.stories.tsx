@@ -1,11 +1,23 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { XloginForm } from "./x-login";
+import { XLoginForm } from "./x-login";
 
 const meta = {
-  component: XloginForm,
-} satisfies Meta<typeof XloginForm>;
+  component: XLoginForm,
+} satisfies Meta<typeof XLoginForm>;
 
 export default meta;
 
-export const Default: StoryObj<typeof XloginForm> = {};
+const onClick = (): Promise<void> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 3000);
+  });
+};
+
+export const Default: StoryObj<typeof XLoginForm> = {
+  args: {
+    onClick,
+  },
+};

@@ -1,20 +1,29 @@
 import styles from "./x-login.module.scss";
 import { SimpleButton } from "components/atoms/buttons/simple";
+import { SimpleSpinner } from "components/atoms/spinner/simple";
 import { Title } from "components/molecules/label/title";
+import { useState } from "react";
 
 export type Props = {
-  onClick?: () => void;
+  onClick: () => Promise<void>;
   isLogin: boolean;
 };
 
-export const XloginForm = (props: Props) => {
+export const XLoginForm = (props: Props) => {
   const { isLogin = false } = props;
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async () => {
+    setLoading(true);
+    await props.onClick();
+    setLoading(false);
+  };
 
   return (
     <div className={styles.container}>
       <Title />
-      <SimpleButton disabled={isLogin} onClick={props.onClick}>
-        {props.isLogin ? "ログイン済み" : "Xにログイン"}
+      <SimpleButton disabled={isLogin} onClick={onClick}>
+        {loading ? <SimpleSpinner /> : isLogin ? "ログイン済み" : "Xにログイン"}
       </SimpleButton>
     </div>
   );

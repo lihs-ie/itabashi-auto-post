@@ -8,4 +8,16 @@ const meta = {
 
 export default meta;
 
-export const Default: StoryObj<typeof PopUp> = {};
+const onClick = (): Promise<void> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 3000);
+  });
+};
+
+export const Default: StoryObj<typeof PopUp> = {
+  args: {
+    authenticate: onClick,
+  },
+};

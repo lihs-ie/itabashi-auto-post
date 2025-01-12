@@ -1,7 +1,7 @@
 import { get } from "aspects/storage";
 import { authenticate } from "aspects/x";
 import { PopUp } from "components/templates/popup";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const initial = await get<boolean | null>("isLogin");
 
@@ -19,8 +19,7 @@ export const Page = () => {
 
   return (
     <>
-      <PopUp onClick={authenticate} isLogin={isLogin === null ? false : isLogin} />
-      <Suspense fallback={<div>ログイン中...</div>} />
+      <PopUp authenticate={authenticate} isLogin={isLogin === null ? false : isLogin} />
     </>
   );
 };
