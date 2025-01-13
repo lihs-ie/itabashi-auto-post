@@ -1,17 +1,23 @@
-type Action = "postTweet";
+type Action = "postTweet" | "startAuthFlow";
 
-export type Message<T> = {
+export type Inner<T> = {
   action: Action;
-  payload: Array<T>;
+  payload?: Array<T>;
+};
+
+export type Outer<T> = {
+  success: boolean;
+  response: T;
+  error?: string;
 };
 
 export const createListener = <T>(
   action: Action,
   callback: (...args: Array<T>) => Promise<void>
 ) => {
-  chrome.runtime.onMessage.addListener((message: Message<T>, _, sendResponse) => {
+  chrome.runtime.onMessage.addListener((message: Inner<T>, _, sendResponse) => {
     if (message.action === action) {
-      callback(...message.payload)
+      callback(...(message.payload || []))
         .then((response) => sendResponse({ success: true, response }))
         .catch((error) => sendResponse({ success: false, error: error.message }));
 
@@ -34,4 +40,8 @@ export const initiate = <Methods extends Array<Initializer<any>>>(...methods: Me
       methods.forEach((method) => method.callback(...(method.args || [])));
     }
   });
+};
+
+export const sendMessage = async <I, O>(message: Inner<I>): Promise<Outer<O>> => {
+  return await chrome.runtime.sendMessage<Inner<I>, Outer<O>>(message);
 };

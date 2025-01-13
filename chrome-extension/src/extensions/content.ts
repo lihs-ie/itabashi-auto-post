@@ -1,4 +1,4 @@
-import { Message } from "aspects/runtime";
+import { Inner } from "aspects/runtime";
 
 const scrape = (selector: string): Element | null => {
   const element = document.querySelector(selector);
@@ -31,7 +31,7 @@ const startButtonObserver = new MutationObserver(() => {
   if (target) {
     startButtonObserver.disconnect();
     target.addEventListener("click", () => {
-      chrome.runtime.sendMessage<Message<string>>({
+      chrome.runtime.sendMessage<Inner<string>>({
         action: "postTweet",
         payload: [createTweet()],
       });

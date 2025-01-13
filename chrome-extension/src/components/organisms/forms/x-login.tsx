@@ -14,9 +14,12 @@ export const XLoginForm = (props: Props) => {
   const [loading, setLoading] = useState(false);
 
   const onClick = async () => {
-    setLoading(true);
-    await props.onClick();
-    setLoading(false);
+    try {
+      setLoading(true);
+      await props.onClick();
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

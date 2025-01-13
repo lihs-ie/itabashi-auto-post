@@ -18,11 +18,15 @@
     }
   ],
   "externally_connectable": {
-    "matches": ["https://script.google.com/macros/s/*", "https://live.nicovideo.jp/watch/lv*"]
+    "matches": [
+      "https://twitter.com/*",
+      "https://script.google.com/macros/s/*",
+      "https://live.nicovideo.jp/watch/lv*"
+    ]
   },
   "oauth2": {
     "client_id": "R3hUQ2FRTC1TT2tzQmpmYXRQc186MTpjaQ",
-    "scopes": ["tweet.write", "offline.access"],
+    "scopes": ["tweet.write", "tweet.read", "users.read"],
     "redirect_uri": "https://fnblmcbgfliopllclifdebjaklkpjpfi.chromiumapp.org/"
   },
   "host_permissions": [

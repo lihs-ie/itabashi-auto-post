@@ -1,9 +1,19 @@
+import { sendMessage } from "aspects/runtime";
 import { get } from "aspects/storage";
-import { authenticate } from "aspects/x";
 import { PopUp } from "components/templates/popup";
 import { useEffect, useState } from "react";
 
 const initial = await get<boolean | null>("isLogin");
+
+const onClick = async () => {
+  const response = await sendMessage({ action: "startAuthFlow" });
+
+  if (!response.success) {
+    console.log(response.error);
+  } else {
+    console.log("Authenticated successfully.");
+  }
+};
 
 export const Page = () => {
   const [isLogin, setIsLogin] = useState(initial);
@@ -19,7 +29,7 @@ export const Page = () => {
 
   return (
     <>
-      <PopUp authenticate={authenticate} isLogin={isLogin === null ? false : isLogin} />
+      <PopUp authenticate={onClick} isLogin={isLogin === null ? false : isLogin} />
     </>
   );
 };

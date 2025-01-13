@@ -20,20 +20,40 @@ export const checkLogin = async (): Promise<boolean> => {
       return false;
     }
 
-    const response = await fetch(`${OAuth.TOKEN_ENDPOINT}?userId=${userId}`);
+    const response = await axios<{ isLogin: boolean }>(`${OAuth.TOKEN_ENDPOINT}?userId=${userId}`);
 
-    if (!response.ok) {
+    if (400 <= response.status) {
       throw new Error("Failed to check login.");
     }
 
-    const result = (await response.json()) as { isLogin: boolean };
+    const data = response.data;
 
-    await set("isLogin", result.isLogin);
-    return result.isLogin;
+    await set("isLogin", data.isLogin);
+    return data.isLogin;
   } catch (error) {
     console.error("Failed to check login:", error);
     throw error;
   }
+};
+
+const extractCode = (initialState: string, redirectURI?: string): string => {
+  if (!redirectURI) {
+    throw new Error("Redirect URI not found.");
+  }
+
+  if (!redirectURI.startsWith(OAuth.REDIRECT_URI)) {
+    throw new Error(`Invalid redirect URI: ${redirectURI}`);
+  }
+
+  const url = new URL(redirectURI);
+  const code = url.searchParams.get("code");
+  const state = url.searchParams.get("state");
+
+  if (!code || state !== initialState) {
+    throw new Error("Authorization code not found or state mismatch.");
+  }
+
+  return code;
 };
 
 export const authenticate = async (): Promise<void> => {
@@ -44,28 +64,22 @@ export const authenticate = async (): Promise<void> => {
     OAuth.REDIRECT_URI
   )}&scope=tweet.write%20tweet.read%20users.read%20offline.access&state=${initialState}&code_challenge=challenge&code_challenge_method=plain`;
 
-  const redirectURL = await new Promise<string>((resolve, reject) => {
-    chrome.identity.launchWebAuthFlow(
-      { url: authorizationURL, interactive: true },
-      (redirectURL) => {
-        if (!redirectURL) {
-          reject(new Error("Failed to obtain auth code."));
-        } else {
-          resolve(redirectURL);
-        }
-      }
-    );
-  });
+  try {
+    const redirectUri = await chrome.identity.launchWebAuthFlow({
+      url: authorizationURL,
+      interactive: true,
+    });
 
-  const url = new URL(redirectURL);
-  const code = url.searchParams.get("code");
-  const state = url.searchParams.get("state");
+    const code = extractCode(initialState, redirectUri);
 
-  if (!code || state !== initialState) {
-    throw new Error("Authorization code not found.");
+    await exchangeToken(code);
+  } catch (error) {
+    console.error("An error occurred during the authentication flow:", error);
+
+    if (chrome.runtime.lastError) {
+      console.error("Runtime Error:", chrome.runtime.lastError.message);
+    }
   }
-
-  await exchangeToken(code);
 };
 
 export const exchangeToken = async (code: string): Promise<void> => {
