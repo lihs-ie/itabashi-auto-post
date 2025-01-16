@@ -3,7 +3,7 @@
   "description": "Use OAuth in Extensions",
   "version": "1.0",
   "manifest_version": 3,
-  "permissions": ["storage", "identity", "tabs", "activeTab", "scripting", "alarms"],
+  "permissions": ["storage", "identity", "scripting", "alarms", "notifications"],
   "action": {
     "default_popup": "src/pages/popup/index.html"
   },
@@ -18,16 +18,12 @@
     }
   ],
   "externally_connectable": {
-    "matches": [
-      "https://twitter.com/*",
-      "https://script.google.com/macros/s/*",
-      "https://live.nicovideo.jp/watch/lv*"
-    ]
+    "matches": ["https://live.nicovideo.jp/watch/lv*"]
   },
   "oauth2": {
-    "client_id": "R3hUQ2FRTC1TT2tzQmpmYXRQc186MTpjaQ",
-    "scopes": ["tweet.write", "tweet.read", "users.read"],
-    "redirect_uri": "https://fnblmcbgfliopllclifdebjaklkpjpfi.chromiumapp.org/"
+    "client_id": "${process.env.VITE_OAUTH_CLIENT_ID}",
+    "scopes": ["${process.env.VITE_OAUTH_SCOPES}"],
+    "redirect_uri": "${process.env.VITE_OAUTH_REDIRECT_URI}"
   },
   "host_permissions": [
     "https://script.google.com/macros/s/*",
@@ -39,5 +35,5 @@
     "48": "icons/48.png",
     "128": "icons/128.png"
   },
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlgSh68zwMewLPOxqvQVz71RT4as5sYIpA+rpfkSE6UJeqgg3fGJWQ8MHdZI/YDw6PZyRhTI+IrI3H8t+YZKhdffjPFYTuDpm2W/S98HujGLucpdH52iBbPaisKvE265ct1LupYbMDhdIMS2a1YjwSaCf+3M91cegUH2KP2Rjjo0HdTiZjHrKkBrxHMyWWZoe+eeWPk5pRQ7naGSdW30qxCa1GxCshepprLIK9hlX16yk9X38xo7riPaBdFO2FIsoTvZcFNw0iYI+SN4QOs4K2XQ+fXC2FCy4KMjGK88Wj64CWMCry4+gwhkoW6QqlvFyWnLWHflHjyAGb0qnUzPUAwIDAQAB"
+  "key": "${process.env.VITE_EXTENSION_KEY}"
 }

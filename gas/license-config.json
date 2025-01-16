@@ -10,7 +10,8 @@
     "CONTRIBUTING",
     "build",
     "dist",
-    ".env"
+    ".env.development",
+    ".env.production"
   ],
   "license": "license-header.txt",
   "licenseFormats": {

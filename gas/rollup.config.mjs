@@ -17,10 +17,13 @@ import cleanup from 'rollup-plugin-cleanup';
 import prettier from 'rollup-plugin-prettier';
 import typescript from 'rollup-plugin-typescript2';
 
+const isDev = process.env.BUILD_ENV === 'development';
+const outputDir = isDev ? 'dist-dev' : 'dist-prd';
+
 export default {
   input: 'src/index.ts',
   output: {
-    dir: 'dist',
+    dir: outputDir,
     format: 'esm',
   },
   plugins: [

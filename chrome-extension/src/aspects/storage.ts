@@ -8,3 +8,16 @@ export const get = async <T>(key: string): Promise<T> => {
 };
 
 export const remove = async (key: string) => await chrome.storage.local.remove(key);
+
+export const onChange = <T>(target: string, callback: (args: T) => unknown) => {
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === "local" && changes[target]) {
+      callback(changes[target].newValue);
+    }
+  });
+};
+
+export type NotificationSetting = {
+  time: number;
+  unit: "second"| "minute" | "hour"
+}

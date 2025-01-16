@@ -1,13 +1,15 @@
-import { XLoginForm } from "components/organisms/forms/x-login";
+import { XLoginForm, Props as ContentProps } from "components/organisms/forms/x-login";
 import styles from "./popup.module.scss";
+import { PopUpHeader, Props as HeaderProps } from "components/organisms/headers/popup";
 
 export type Props = {
-  authenticate: () => Promise<void>;
-  isLogin: boolean;
+  content: ContentProps;
+  header: HeaderProps;
 };
 
 export const PopUp = (props: Props) => (
   <div className={styles.container}>
-    <XLoginForm onClick={props.authenticate} isLogin={props.isLogin} />
+    <PopUpHeader {...props.header} />
+    <XLoginForm {...props.content} />
   </div>
 );

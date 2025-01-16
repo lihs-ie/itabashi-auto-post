@@ -3,6 +3,7 @@ import { NicoLiveSelector } from "config";
 import { OAuth } from "config";
 import { get, set } from "./storage";
 import axios from "axios";
+import { notify } from "./notifications";
 
 type Error = {
   error: string;
@@ -32,7 +33,7 @@ export const checkLogin = async (): Promise<boolean> => {
     return data.isLogin;
   } catch (error) {
     console.error("Failed to check login:", error);
-    throw error;
+    return false;
   }
 };
 
@@ -74,11 +75,7 @@ export const authenticate = async (): Promise<void> => {
 
     await exchangeToken(code);
   } catch (error) {
-    console.error("An error occurred during the authentication flow:", error);
-
-    if (chrome.runtime.lastError) {
-      console.error("Runtime Error:", chrome.runtime.lastError.message);
-    }
+    notify("authenticate", "basic", "Xのログインに失敗しました。", "再度ログインしてください。");
   }
 };
 
@@ -99,6 +96,10 @@ export const exchangeToken = async (code: string): Promise<void> => {
     );
 
     const data = response.data;
+
+    if (!data?.userId) {
+      throw new Error("User ID not found in the response.");
+    }
 
     await set("isLogin", true);
     await set("userId", data.userId);
@@ -136,5 +137,7 @@ export const postTweet = async (tweet: string): Promise<void> => {
 
       console.log("Tweeted successfully.");
     })
-    .catch((error) => console.error("Failed to tweet:", error));
+    .catch((error) => {
+      console.error("Failed to tweet:", error);
+    });
 };

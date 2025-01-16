@@ -1,7 +1,6 @@
 node_modules
-
 *storybook.log
-
-dist
-
-.env
+dist-dev/
+dist-prd/
+.env.development
+.env.production
