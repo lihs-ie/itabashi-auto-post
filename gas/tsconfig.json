@@ -12,7 +12,12 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "allowUnreachableCode": false,
-    "allowUnusedLabels": false
+    "allowUnusedLabels": false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["src/**/*", "test/**/*", "rollup.config.mjs"]
+  "include": ["src/**/*", "rollup.config.mjs"],
+  "exclude": ["node_modules", "dist-dev", "dist-prod"]
 }

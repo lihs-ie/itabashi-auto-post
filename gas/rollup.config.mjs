@@ -16,6 +16,7 @@
 import cleanup from 'rollup-plugin-cleanup';
 import prettier from 'rollup-plugin-prettier';
 import typescript from 'rollup-plugin-typescript2';
+import nodeResolve from '@rollup/plugin-node-resolve';
 
 const isDev = process.env.BUILD_ENV === 'development';
 const outputDir = isDev ? 'dist-dev' : 'dist-prd';
@@ -29,6 +30,7 @@ export default {
   plugins: [
     cleanup({ comments: 'none', extensions: ['.ts'] }),
     typescript(),
+    nodeResolve(),
     prettier({ parser: 'typescript' }),
   ],
   context: 'this',

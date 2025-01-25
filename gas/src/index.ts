@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { GET } from './get';
-import { POST } from './post';
-import { allRefresh } from './x/token/refresh';
+import { GET, POST } from './controllers';
+import { allRefresh } from './kernel/batch/refresh';
+import { removeAuthentication } from './kernel/batch/remove-authentication';
+import { useCase } from './providers/use-cases/authentication';
 
-const doGet = (
-  e: GoogleAppsScript.Events.DoGet
-): GoogleAppsScript.Content.TextOutput => {
-  return GET(e);
-};
+const refreshBatch = () => allRefresh(useCase);
 
-const doPost = (e: GoogleAppsScript.Events.DoPost) => {
-  return POST(e);
-};
+const removeAuthenticationBatch = () => removeAuthentication(useCase);
 
-allRefresh;
+const doGet = GET;
+
+const doPost = POST;

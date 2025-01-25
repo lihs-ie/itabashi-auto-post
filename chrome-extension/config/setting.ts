@@ -1,0 +1,37 @@
+export const setting = {
+  batch: {
+    identifier: {
+      CHECK_LOGIN:
+        process.env.PLASMO_PUBLIC_BATCH_IDENTIFIER_CHECK_LOGIN ||
+        "405124df-3732-4724-9434-65166958ed2f"
+    }
+  },
+  notification: {
+    PERSISTENCE_KEY: "NOTIFICATIONS",
+    identifier: {
+      REQUIRE_LOGIN:
+        process.env.PLASMO_PUBLIC_NOTIFICATION_IDENTIFIER_REQUIRE_LOGIN ||
+        "b2344126-0b0d-4f8e-9708-a5e6dab9177c",
+      LOGIN_SUCCESS:
+        process.env.PLASMO_PUBLIC_NOTIFICATION_IDENTIFIER_LOGIN_SUCCESS ||
+        "a52a5477-7164-4fa5-a85b-0bef61ac127c",
+      LOGIN_FAILURE:
+        process.env.PLASMO_PUBLIC_NOTIFICATION_IDENTIFIER_LOGIN_FAILURE ||
+        "43d5a96b-8c43-415b-b720-914ea56f17f5",
+      LOGOUT_SUCCESS:
+        process.env.PLASMO_PUBLIC_NOTIFICATION_IDENTIFIER_LOGOUT_SUCCESS ||
+        "26ceedfd-3633-4cdf-9c27-86a63ec845e0",
+      LOGOUT_FAILURE:
+        process.env.PLASMO_PUBLIC_NOTIFICATION_IDENTIFIER_LOGOUT_FAILURE ||
+        "5c88330c-6523-4fc7-bcf3-c7b241279f8f",
+      SEND_MESSAGE_SUCCESS:
+        process.env
+          .PLASMO_PUBLIC_NOTIFICATION_IDENTIFIER_SEND_MESSAGE_SUCCESS ||
+        "6593b26c-5b77-48a5-a306-ce4a9e083e5d",
+      SEND_MESSAGE_FAILURE:
+        process.env
+          .PLASMO_PUBLIC_NOTIFICATION_IDENTIFIER_SEND_MESSAGE_FAILURE ||
+        "d38f1578-e441-4fa0-812d-6b7f35a4952c"
+    }
+  }
+} as const
