@@ -1,26 +1,19 @@
-import { MockScriptProperties } from './test/helpers/properties';
+import { PropertiesServiceMock } from './test/mock/google/properties-service';
+import { ScriptPropertyMock } from './test/mock/google/properties-service/script-property';
+import { UtilitiesMock } from './test/mock/google/utilities';
+import { LoggerMock } from './test/mock/google/logger';
+import { UrlFetchAppMock } from './test/mock/google/url-fetch-app';
+import { GmailAppMock } from './test/mock/google/gmail';
+import { ContentServiceMock } from './test/mock/google/content-service';
 
-(global as any).PropertiesService = {
-  getScriptProperties: () => MockScriptProperties.getInstance(),
-};
+global.PropertiesService = new PropertiesServiceMock(new ScriptPropertyMock());
 
-(global as any).Utilities = {
-  base64Encode: (value: string) => btoa(value),
-};
+global.Utilities = new UtilitiesMock();
 
-(global as any).UrlFetchApp = {
-  fetch: jest.fn(),
-};
+global.Logger = new LoggerMock();
 
-(global as any).MailApp = {
-  sendEmail: jest.fn(),
-};
+global.UrlFetchApp = new UrlFetchAppMock();
 
-(global as any).ContentService = {
-  createTextOutput: jest.fn().mockReturnValue({
-    setMimeType: jest.fn().mockReturnThis(),
-  }),
-  MimeType: {
-    JSON,
-  },
-};
+global.GmailApp = new GmailAppMock();
+
+global.ContentService = new ContentServiceMock();

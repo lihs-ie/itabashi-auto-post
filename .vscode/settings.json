@@ -1,0 +1,6 @@
+{
+  "eslint.workingDirectories": [
+    { "directory": "chrome-extension", "changeProcessCWD": true },
+    { "directory": "gas", "changeProcessCWD": true }
+  ]
+}

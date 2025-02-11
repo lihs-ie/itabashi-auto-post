@@ -1,8 +1,8 @@
-import { getProperty } from './properties';
+import { credentials } from '@/config';
 
 export const sendMail = (subject: string, body: string) => {
   GmailApp.sendEmail(
-    getProperty('ADMIN_MAIL_ADDRESS'),
+    credentials.ADMIN_MAIL_ADDRESS,
     `[itabashi-auto-post] ${subject}`,
     body
   );

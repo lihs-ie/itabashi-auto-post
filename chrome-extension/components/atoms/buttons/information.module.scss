@@ -1,0 +1,10 @@
+.container {
+  font-size: 16px;
+  color: #007bff;
+
+  cursor: pointer;
+
+  &:hover {
+    color: #0056b3;
+  }
+}

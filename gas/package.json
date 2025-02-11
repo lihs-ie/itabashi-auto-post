@@ -7,7 +7,7 @@
   "keywords": [],
   "scripts": {
     "clean": "rimraf build dist",
-    "lint": "eslint --fix --no-error-on-unmatched-pattern src/ test/",
+    "lint": "eslint --fix --no-error-on-unmatched-pattern src/",
     "bundle": "rollup --no-treeshake -c rollup.config.mjs",
     "build:dev": "npm run clean && BUILD_ENV=development rollup --no-treeshake -c rollup.config.mjs && ncp appsscript.json dist-dev/appsscript.json",
     "build:prd": "npm run clean && BUILD_ENV=production rollup --no-treeshake -c rollup.config.mjs && ncp appsscript.json dist-prd/appsscript.json",
@@ -38,10 +38,23 @@
     "rollup-plugin-license": "^3.5.3",
     "rollup-plugin-prettier": "^4.1.1",
     "rollup-plugin-typescript2": "^0.36.0",
-    "ts-jest": "^29.2.5",
-    "typescript": "^5.7.3"
+    "type-fest": "^4.33.0",
+    "typescript": "^5.7.3",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
-    "jest-mock-extended": "^4.0.0-beta1"
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@types/node-fetch": "^2.6.12",
+    "@types/sync-fetch": "^0.4.3",
+    "fetch-sync": "^2.0.0",
+    "hash.js": "^1.1.7",
+    "immutable": "^5.0.3",
+    "jest-fetch-mock": "^3.0.3",
+    "jest-mock-extended": "^4.0.0-beta1",
+    "jest-to-equal-type": "^0.1.0",
+    "sync-fetch": "^0.6.0-2",
+    "sync-request": "^6.1.0",
+    "ts-jest": "^29.2.5",
+    "uuid": "^11.0.5"
   }
 }
