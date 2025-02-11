@@ -1,7 +1,7 @@
 {
   "name": "itabashi-auto-post",
   "displayName": "Itabashi auto post",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "ニコ生配信開始ポスト自動化",
   "author": "lihs-dev",
   "scripts": {
@@ -9,7 +9,7 @@
     "after-build:dev": "NODE_ENV=development node ./after-build/add-redirect-uri.js",
     "after-build:prd": "NODE_ENV=production node ./after-build/add-redirect-uri.js",
     "build:dev": "NODE_ENV=development plasmo build --tag=dev && pnpm run after-build:dev",
-    "build:prd": "NODE_ENV=production plasmo build --tag=production && pnpm run after-build:prd",
+    "build:prd": "NODE_ENV=production plasmo build --tag=production --zip && pnpm run after-build:prd",
     "package": "plasmo package",
     "test": "vitest",
     "storybook": "storybook dev -p 6006",
@@ -64,7 +64,7 @@
   },
   "manifest": {
     "host_permissions": [
-      "https://*/*"
+      "https://live.nicovideo.jp/watch/lv*"
     ],
     "key": "$EXTENSION_KEY",
     "oauth2": {
