@@ -64,7 +64,8 @@
   },
   "manifest": {
     "host_permissions": [
-      "https://live.nicovideo.jp/watch/lv*"
+      "$PLASMO_PUBLIC_ITABASHI_AUTO_POST_GAS_API_ENDPOINT/*",
+      "$PLASMO_PUBLIC_ITABASHI_AUTO_POST_GAS_API_REDIRECT_URI/*"
     ],
     "key": "$EXTENSION_KEY",
     "oauth2": {
