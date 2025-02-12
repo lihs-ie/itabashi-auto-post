@@ -174,7 +174,7 @@ registerListener(async (alarm) => {
     try {
       await authUseCase.verify()
     } catch (error) {
-      console.warn("Before login.")
+      console.warn(error)
     }
   } else if (identifier === setting.notification.identifier.REQUIRE_LOGIN) {
     const authentication = await chrome.storage.local.get("AUTHENTICATION")
