@@ -8,6 +8,7 @@ export const removeAuthentication = (
   authentications.forEach(async authentication => {
     if (!authentication.verify()) {
       useCase.remove(authentication.identifier.value);
+      Logger.log(`Removed authentication: ${authentication.identifier.value}`);
     }
   });
 };
