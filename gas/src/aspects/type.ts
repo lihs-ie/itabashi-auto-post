@@ -39,7 +39,7 @@ type Primitive =
   | null
   | bigint
   | Function
-  | Symbol
+  | symbol
   | Date
   | never
   | void;
