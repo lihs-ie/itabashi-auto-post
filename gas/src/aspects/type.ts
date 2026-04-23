@@ -1,6 +1,3 @@
-import { UnionToIntersection } from 'type-fest';
-import { z } from 'zod';
-
 export type Commit<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 
 export type ValueOf<T> = T[keyof T];
@@ -30,50 +27,3 @@ export type ExcludeFunctions<T> = {
 };
 
 export type NonEmptyArray<T> = [T, ...T[]] | [...T[], T];
-
-type Primitive =
-  | string
-  | number
-  | boolean
-  | undefined
-  | null
-  | bigint
-  | Function
-  | symbol
-  | Date
-  | never
-  | void;
-
-type IterateOnTuple<T extends [...any[]]> = T extends [
-  infer Head,
-  ...infer Tail,
-]
-  ? [Unbrand<Head>, ...IterateOnTuple<Tail>]
-  : [];
-
-type RemoveBrand<T> =
-  T extends z.BRAND<infer Brand>
-    ? T extends (
-        | z.BRAND<Brand>
-        | UnionToIntersection<{ [K in Brand]: z.BRAND<K> }[Brand]>
-      ) &
-        infer X
-      ? RemoveBrand<X>
-      : never
-    : T;
-
-export type Unbrand<T> = T extends Primitive
-  ? RemoveBrand<T>
-  : T extends Promise<infer E>
-    ? Promise<Unbrand<E>>
-    : T extends [any, ...any[]]
-      ? IterateOnTuple<RemoveBrand<T>>
-      : T extends Array<infer E>
-        ? Array<Unbrand<E>>
-        : T extends Set<infer E>
-          ? Set<Unbrand<E>>
-          : T extends Map<infer E, infer F>
-            ? Map<Unbrand<E>, Unbrand<F>>
-            : {
-                [k in Exclude<keyof T, keyof z.BRAND<any>>]: Unbrand<T[k]>;
-              };

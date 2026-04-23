@@ -34,7 +34,7 @@ export const authenticationSchema = z
     type: typeSchema,
     expiresIn: z.number().min(1),
     scope: z.array(scopeTypeSchema).min(1),
-    verify: z.function().returns(z.boolean()),
+    verify: z.any(),
   })
   .brand('Authentication');
 
