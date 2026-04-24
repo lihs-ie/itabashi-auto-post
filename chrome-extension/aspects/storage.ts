@@ -4,7 +4,7 @@ export const set = async <T>(key: string, value: T) =>
 export const get = async <T>(key: string): Promise<T> => {
   const value = await chrome.storage.local.get(key)
 
-  return value[key]
+  return value[key] as T
 }
 
 export const remove = async (key: string) =>
@@ -18,7 +18,7 @@ export const onChange = <T>(
 ) => {
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area === "local" && changes[target]) {
-      callback(changes[target].newValue, changes[target].oldValue)
+      callback(changes[target].newValue as T, changes[target].oldValue as T)
     }
   })
 }

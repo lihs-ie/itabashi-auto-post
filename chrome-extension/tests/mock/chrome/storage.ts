@@ -1,5 +1,5 @@
 export class LocalStorageMock implements chrome.storage.LocalStorageArea {
-  QUOTA_BYTES: number = 5242880
+  QUOTA_BYTES = 10485760 as const
   public store: { [key: string]: any }
 
   public constructor(initial: { [key: string]: any } = {}) {

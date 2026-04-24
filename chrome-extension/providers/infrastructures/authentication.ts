@@ -4,12 +4,12 @@ import { Repository } from "domains/authentication"
 import { ACLAuthenticationRepository } from "infrastructures"
 import { ContainerModule } from "inversify"
 
-export const authentication = new ContainerModule((bind) => {
+export const authentication = new ContainerModule(({ bind }) => {
   bind(Repository).toDynamicValue(
     (context) =>
       new ACLAuthenticationRepository(
-        context.container.get(Adaptor),
-        context.container.get(GasAdaptor)
+        context.get(Adaptor),
+        context.get(GasAdaptor)
       )
   )
 })

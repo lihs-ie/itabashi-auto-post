@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { ExcludeFunctions, Unbrand } from '../../aspects/type';
+// Properties type intentionally inlined (zod 4 で Unbrand の深い再帰が型 instantiation 上限を超えるため、Extract<keyof T, string> で string キーを取り出し function を除外する形に簡素化)
 import { sha256 } from '@/aspects/hash';
 
 export const valueObjectSchema = <T extends z.ZodRawShape, B extends string>(
@@ -8,12 +8,10 @@ export const valueObjectSchema = <T extends z.ZodRawShape, B extends string>(
   brand: B
 ) =>
   schema
-    .merge(
-      z.object({
-        hashCode: z.function().args(schema).returns(z.string()),
-        equals: z.function().args(z.unknown()).returns(z.boolean()),
-      })
-    )
+    .extend({
+      hashCode: z.any(),
+      equals: z.any(),
+    })
     .brand(brand);
 
 export type ValueObject<T> = T & {
@@ -21,11 +19,28 @@ export type ValueObject<T> = T & {
   hashCode: () => string;
 };
 
-export type Properties<T> = ExcludeFunctions<Unbrand<T>>;
+type StripPrimitiveBrand<T> = T extends string
+  ? string
+  : T extends number
+    ? number
+    : T extends boolean
+      ? boolean
+      : T;
+
+export type Properties<T> = {
+  [K in Exclude<
+    Extract<keyof T, string>,
+    'hashCode' | 'equals' | 'verify'
+  > as T[K] extends (...args: any[]) => any
+    ? never
+    : K]: T[K] extends (infer E)[]
+    ? StripPrimitiveBrand<E>[]
+    : StripPrimitiveBrand<T[K]>;
+};
 
 export const ValueObject = <T extends Record<string, unknown>>(
   properties: Properties<T>,
-  validate: z.ZodBranded<z.ZodTypeAny, string>
+  validate: z.ZodTypeAny
 ): ValueObject<T> => {
   const isSameType = (other: unknown): other is ValueObject<T> => {
     return (
@@ -60,5 +75,5 @@ export const ValueObject = <T extends Record<string, unknown>>(
     ...properties,
     equals,
     hashCode,
-  });
+  }) as ValueObject<T>;
 };

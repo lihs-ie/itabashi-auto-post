@@ -16,7 +16,7 @@ export const addRecursion = <B extends z.ZodObject<any>, F extends object>(
 
   const combinedSchema: z.ZodType<Combined> = base.extend({
     [key]: z.lazy(() => combinedSchema),
-  }) as z.ZodType<Combined>;
+  }) as unknown as z.ZodType<Combined>;
 
   return combinedSchema;
 };

@@ -57,7 +57,7 @@ export abstract class StorageAdaptor {
 
   public async get<T>(key: string): Promise<T | null> {
     const items = await this.client.get(key)
-    return items[key] || null
+    return (items[key] as T) || null
   }
 
   public async delete(key: string): Promise<void> {

@@ -128,7 +128,6 @@ export class Adaptor extends AbstractAdaptor {
         await this.persistClient.remove("AUTHENTICATION");
       }
     } catch (error) {
-      await this.persistClient.remove("AUTHENTICATION");
       throw error;
     }
   }

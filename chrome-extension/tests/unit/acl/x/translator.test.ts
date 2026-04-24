@@ -21,7 +21,7 @@ describe("Package translator", () => {
   describe("class translator", () => {
     describe("translate", () => {
       it("successfully returns Code.", () => {
-        const redirectURI = Builder.get(URLFactory).build()
+        const redirectURI = Builder.get(URLFactory).build({ isRelative: false })
         const code = Builder.get(StringFactory(1, 255)).build()
         const state = Builder.get(StringFactory(1, 255)).build()
 
@@ -44,7 +44,9 @@ describe("Package translator", () => {
 
       describe("unsuccessfully", () => {
         it("throws error with invalid redirect URI.", () => {
-          const redirectURI = Builder.get(URLFactory).build()
+          const redirectURI = Builder.get(URLFactory).build({
+            isRelative: false
+          })
           const code = Builder.get(StringFactory(1, 255)).build()
           const state = Builder.get(StringFactory(1, 255)).build()
 
@@ -64,7 +66,9 @@ describe("Package translator", () => {
         })
 
         it("throws error with invalid state.", () => {
-          const redirectURI = Builder.get(URLFactory).build()
+          const redirectURI = Builder.get(URLFactory).build({
+            isRelative: false
+          })
           const code = Builder.get(StringFactory(1, 255)).build()
           const state = Builder.get(StringFactory(1, 255)).build()
 

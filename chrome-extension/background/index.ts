@@ -89,7 +89,7 @@ const initiateNotifications = async () => {
     "自動ポスト機能が有効になりました。",
     null,
     true,
-    Priority.NORMAL
+    Priority.HIGH
   )
 
   const loginFailure = new Notification(
@@ -99,7 +99,7 @@ const initiateNotifications = async () => {
     "何度も失敗する場合は時間を置いてから再度ログインしてください。",
     null,
     true,
-    Priority.NORMAL
+    Priority.HIGH
   )
 
   const logoutSuccess = new Notification(
@@ -109,7 +109,7 @@ const initiateNotifications = async () => {
     "自動ポストを有効にするには再度ログインしてください。",
     null,
     true,
-    Priority.NORMAL
+    Priority.HIGH
   )
 
   const logoutFailure = new Notification(
@@ -119,7 +119,7 @@ const initiateNotifications = async () => {
     "何度も失敗する場合は時間を置いてから再度ログアウトしてください。",
     null,
     true,
-    Priority.NORMAL
+    Priority.HIGH
   )
 
   const sendMessageSuccess = new Notification(
@@ -174,7 +174,7 @@ registerListener(async (alarm) => {
     try {
       await authUseCase.verify()
     } catch (error) {
-      console.warn("Before login.")
+      console.warn(error)
     }
   } else if (identifier === setting.notification.identifier.REQUIRE_LOGIN) {
     const authentication = await chrome.storage.local.get("AUTHENTICATION")

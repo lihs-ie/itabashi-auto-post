@@ -4,6 +4,12 @@ export const allRefresh = (useCase: ReturnType<typeof Authentication>) => {
   const authentications = useCase.list();
 
   authentications.forEach(async authentication => {
-    useCase.refresh(authentication);
+    try {
+      useCase.refresh(authentication);
+    } catch (error) {
+      Logger.log(
+        `Failed to refresh authentication: ${authentication.identifier.value}`
+      );
+    }
   });
 };
