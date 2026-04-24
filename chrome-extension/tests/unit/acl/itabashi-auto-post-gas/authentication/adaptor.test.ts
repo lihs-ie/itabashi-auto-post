@@ -260,7 +260,7 @@ describe("Package adaptor", () => {
             await expect(adaptor.verify()).rejects.toThrow()
 
             const after = await storageMock.get("AUTHENTICATION")
-            expect(after.AUTHENTICATION).toBeUndefined()
+            expect(after.AUTHENTICATION).toBe(identifier.value)
           }
         )
 

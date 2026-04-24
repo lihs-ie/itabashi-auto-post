@@ -5,7 +5,7 @@ console.log("🚀 Adding redirect_uri to manifest.json")
 
 const target =
   process.env.NODE_ENV === "development"
-    ? "chrome-mv3-development"
+    ? "chrome-mv3-dev"
     : "chrome-mv3-production"
 
 const jsonPath = path.resolve(__dirname, `../build/${target}/manifest.json`)
