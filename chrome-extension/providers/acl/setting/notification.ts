@@ -3,7 +3,7 @@ import { setting } from "config"
 import image from "data-base64:~assets/icon.png"
 import { ContainerModule } from "inversify"
 
-export const notificationACL = new ContainerModule((bind) => {
+export const notificationACL = new ContainerModule(({ bind }) => {
   bind(Reader).toSelf()
 
   bind(Writer).toSelf()
@@ -13,9 +13,9 @@ export const notificationACL = new ContainerModule((bind) => {
   bind(Adaptor).toDynamicValue(
     (context) =>
       new Adaptor(
-        context.container.get(Reader),
-        context.container.get(Writer),
-        context.container.get(Translator),
+        context.get(Reader),
+        context.get(Writer),
+        context.get(Translator),
         setting.notification.PERSISTENCE_KEY,
         chrome.notifications,
         image,

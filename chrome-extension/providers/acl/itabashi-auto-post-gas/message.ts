@@ -7,7 +7,7 @@ import {
 import { itabashiAutoPostGAS } from "config"
 import { ContainerModule } from "inversify"
 
-export const gasMessageAcl = new ContainerModule((bind) => {
+export const gasMessageAcl = new ContainerModule(({ bind }) => {
   bind(Reader).toSelf()
 
   bind(Writer).toDynamicValue(() => new Writer(itabashiAutoPostGAS.PASSWORD))
@@ -17,9 +17,9 @@ export const gasMessageAcl = new ContainerModule((bind) => {
   bind(Adaptor).toDynamicValue(
     (context) =>
       new Adaptor(
-        context.container.get(Writer),
-        context.container.get(Reader),
-        context.container.get(Translator),
+        context.get(Writer),
+        context.get(Reader),
+        context.get(Translator),
         itabashiAutoPostGAS.API_ENDPOINT,
         chrome.storage.local
       )
